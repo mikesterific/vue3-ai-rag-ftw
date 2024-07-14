@@ -1,0 +1,16 @@
+[
+  {
+    "status": "failed",
+    "title": "has the correct hover effect",
+    "failureMessages": [
+      "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"1\"\nReceived: \"\"\n    at call (/Users/michaeljones/git/mikeAI/server/test/SubmitBtn.spec.js:30:86)\n    at tryCatch (/Users/michaeljones/git/mikeAI/server/test/SubmitBtn.spec.js:2:1)\n    at Generator._invoke (/Users/michaeljones/git/mikeAI/server/test/SubmitBtn.spec.js:2:1)\n    at Generator.next (/Users/michaeljones/git/mikeAI/server/test/SubmitBtn.spec.js:2:1)\n    at asyncGeneratorStep (/Users/michaeljones/git/mikeAI/server/test/SubmitBtn.spec.js:2:1)\n    at _next (/Users/michaeljones/git/mikeAI/server/test/SubmitBtn.spec.js:2:1)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  },
+  {
+    "status": "failed",
+    "title": "has the correct active effect",
+    "failureMessages": [
+      "Error: expect(received).toContain(expected) // indexOf\n\nExpected substring: \"double 4px #fe53bb\"\nReceived string:    \"2px outset buttonface\"\n    at call (/Users/michaeljones/git/mikeAI/server/test/SubmitBtn.spec.js:38:60)\n    at tryCatch (/Users/michaeljones/git/mikeAI/server/test/SubmitBtn.spec.js:2:1)\n    at Generator._invoke (/Users/michaeljones/git/mikeAI/server/test/SubmitBtn.spec.js:2:1)\n    at Generator.next (/Users/michaeljones/git/mikeAI/server/test/SubmitBtn.spec.js:2:1)\n    at asyncGeneratorStep (/Users/michaeljones/git/mikeAI/server/test/SubmitBtn.spec.js:2:1)\n    at _next (/Users/michaeljones/git/mikeAI/server/test/SubmitBtn.spec.js:2:1)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"
+    ]
+  }
+]

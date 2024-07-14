@@ -1,0 +1,44 @@
+{
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js jest test",
+    "start": "nodemon server.mjs"
+  },
+  "jest": {
+    "testRunner": "jest-circus/runner",
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.vue$": "@vue/vue3-jest",
+      "^.+\\.js$": "babel-jest"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "vue"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "@vue/test-utils": "^2.4.6",
+    "@vue/vue3-jest": "^27.0.0",
+    "babel-jest": "^27.5.1",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.5",
+    "typescript": "^4.9.5",
+    "vue": "^3.4.27",
+    "vue-jest": "^3.0.7"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.3",
+    "chai": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mocha": "^10.4.0",
+    "nodemon": "^3.1.0",
+    "openai": "^4.52.3",
+    "vuex": "^4.1.0"
+  }
+}

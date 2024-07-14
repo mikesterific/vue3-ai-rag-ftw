@@ -1,0 +1,6 @@
+{
+  "ignore": [
+    "component/**/*",
+    "test/**/*"
+  ]
+}
