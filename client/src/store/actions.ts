@@ -144,6 +144,8 @@ const actions: Actions = {
     dispatch,
     commit,
   }: Context): Promise<void> {
+    commit('SET_ERROR', '');
+
     try {
       if (!state.component || !state.component.content) {
         throw new Error('Component content is missing or invalid.');
@@ -154,6 +156,7 @@ const actions: Actions = {
         'vectorizeInput',
         state.component.content
       );
+
       if (!vectorizedComponent) {
         throw new Error('Failed to vectorize the component content.');
       }
@@ -282,7 +285,7 @@ const actions: Actions = {
     };
 
     commit('ADD_MESSAGE', userMessage);
-      
+
     return false;
   },
 

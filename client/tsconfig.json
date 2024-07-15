@@ -6,15 +6,16 @@
     "importHelpers": true,
     "jsx": "preserve",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["vite/client"]
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "types": ["vite/client", "vue", "dompurify"],
+    "typeRoots": ["./node_modules/@types", "./types"]
   },
   "include": [
     "src/**/*.ts",
