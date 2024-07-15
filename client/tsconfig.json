@@ -14,7 +14,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "types": ["vite/client", "vue", "dompurify"],
+    "types": ["vite/client", "dompurify"],
     "typeRoots": ["./node_modules/@types", "./types"]
   },
   "include": [
