@@ -91,7 +91,7 @@ const actions: Actions = {
       throw new Error('LLM service is not initialized');
     }
     if (
-      state.testingType === 'lazy_prompt' &&
+      state.testingType !== 'lazy_prompt' &&
       state.conversation.length === 1
     ) {
       message = lazyPrompt(message);
