@@ -1,3 +1,14 @@
-/component/
-/test/
-/dist/
+/component/*
+/component/**/*
+/component/**/.*
+/component/**/.*/**
+
+/test/*
+/test/**/*
+/test/**/.*
+/test/**/.*/**
+
+/dist/*
+/dist/**/*
+/dist/**/.*
+/dist/**/.*/**

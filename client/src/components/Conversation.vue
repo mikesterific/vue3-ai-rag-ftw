@@ -4,7 +4,6 @@
       v-for="(message, index) in filteredConversation"
       :key="index"
       class="outputCell"
-      :ref="`message-${index}`"
     >
       <div v-html="message.content"></div>
     </div>
@@ -12,36 +11,54 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, nextTick } from 'vue';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/dark.css';
 import { mapGetters } from 'vuex';
+import DOMPurify from 'dompurify';
+import type { Config as DOMPurifyConfig } from 'dompurify';
+
+interface Message {
+  role: string;
+  content: string;
+}
 
 export default defineComponent({
   name: 'Conversation',
   computed: {
     ...mapGetters(['conversation']),
-    filteredConversation() {
-      return this.conversation
-        .filter((message: any) => message.role !== 'system')
-        .map((message: any) => {
-          return {
-            ...message,
-            content: this.parseCodeBlocks(message.content),
-          };
-        });
-    },
-  },
-  watch: {
-    conversation(newVal: any[], oldVal: any[]) {
-      if (newVal.length !== oldVal.length) {
-        this.$nextTick(() => {
-          this.highlightCodeBlocks();
-        });
-      }
+    filteredConversation(): Message[] {
+      return (this.conversation as Message[])
+        .filter((message: Message) => message.role !== 'system')
+        .map((message: Message) => ({
+          ...message,
+          content: this.processMessage(message.content),
+        }));
     },
   },
   methods: {
+    processMessage(content: string): string {
+      const codeProcessed = this.parseCodeBlocks(content);
+      return this.sanitizeContent(codeProcessed);
+    },
+    sanitizeContent(content: string): string {
+      const options: DOMPurifyConfig = {
+        ALLOWED_TAGS: [
+          'b',
+          'i',
+          'em',
+          'strong',
+          'a',
+          'code',
+          'pre',
+          'div',
+          'span',
+          'button',
+        ],
+        ALLOWED_ATTR: ['href', 'class', 'style', 'aria-label'],
+      };
+      return DOMPurify.sanitize(content, options);
+    },
     parseCodeBlocks(content: string): string {
       const regex = /```(\w+)?\n([\s\S]*?)```/g;
       return content.replace(regex, (match, lang, code) => {
@@ -49,36 +66,20 @@ export default defineComponent({
         const trimmedCode = code.trim();
         return `<div class="highlight">
                   <div class="code-language">${language}</div>
-                  <button class="copy-button">Copy</button>
+                  <button class="copy-button" aria-label="Copy code">Copy</button>
                   <pre><code class="hljs ${language}">${
-          hljs.highlight(language, trimmedCode).value
+          hljs.highlight(trimmedCode, { language }).value
         }</code></pre>
                 </div>`;
       });
     },
-    highlightCodeBlocks() {
-      this.$nextTick(() => {
-        this.filteredConversation.forEach((_: any, index: number) => {
-          const messageElements = this.$refs[`message-${index}`] as
-            | HTMLElement
-            | HTMLElement[];
-          if (Array.isArray(messageElements)) {
-            messageElements.forEach((messageElement) => {
-              const blocks = messageElement.querySelectorAll('pre code');
-              blocks.forEach((block) => {
-                hljs.highlightBlock(block as HTMLElement);
-              });
-            });
-          } else if (messageElements) {
-            const blocks = messageElements.querySelectorAll('pre code');
-            blocks.forEach((block) => {
-              hljs.highlightBlock(block as HTMLElement);
-            });
-          }
-        });
+    highlightCodeBlocks(): void {
+      const codeBlocks = this.$el.querySelectorAll('pre code');
+      codeBlocks.forEach((block: Element) => {
+        hljs.highlightElement(block as HTMLElement);
       });
     },
-    copyCode(event: MouseEvent) {
+    copyCode(event: MouseEvent): void {
       const target = event.target as HTMLElement;
       if (target.classList.contains('copy-button')) {
         const codeBlock = target.nextElementSibling?.querySelector('code');
@@ -90,24 +91,32 @@ export default defineComponent({
         }
       }
     },
-    updateCopyButtonText(button: HTMLButtonElement) {
+    updateCopyButtonText(button: HTMLButtonElement): void {
       button.textContent = 'Copied';
       setTimeout(() => {
         button.textContent = 'Copy';
       }, 5000);
     },
+    setupEventListeners(): void {
+      this.$el.addEventListener('click', this.copyCode);
+    },
+    removeEventListeners(): void {
+      this.$el.removeEventListener('click', this.copyCode);
+    },
   },
   mounted() {
-    this.highlightCodeBlocks();
-    const content = this.$refs.content as HTMLElement;
-    content.addEventListener('click', this.copyCode);
+    this.setupEventListeners();
+    nextTick(() => {
+      this.highlightCodeBlocks();
+    });
   },
   updated() {
-    this.highlightCodeBlocks();
+    nextTick(() => {
+      this.highlightCodeBlocks();
+    });
   },
-  beforeDestroy() {
-    const content = this.$refs.content as HTMLElement;
-    content.removeEventListener('click', this.copyCode);
+  beforeUnmount() {
+    this.removeEventListeners();
   },
 });
 </script>
