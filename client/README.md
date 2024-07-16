@@ -1,4 +1,4 @@
-# HCSelect.vue Component
+# Select.vue Component
 
 Functionality
 
@@ -24,7 +24,7 @@ update:modelValue: Updates modelValue.
 ## Example Usage
 
 ```
-<HCSelect
+<Select
   :label="'OS'"
   :modelValue="form.operatingSystem"
   @update:modelValue="(newValue) => (form.operatingSystem = newValue)"
